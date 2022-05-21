@@ -1,0 +1,23 @@
+"Games"
+{
+	"#default"
+	{
+		"Signatures"
+		{
+			"CGameClient::ExecuteStringCommand()"
+			{
+				"library"		"engine"
+				"linux"			"@_ZN11CGameClient20ExecuteStringCommandEPKc"
+				"windows"		"\x55\x89\xE5\x81\xEC\x48\x05\x00\x00"
+			}
+		}
+		"Offsets"
+		{
+			"CGameClient::GetPlayerSlot()"
+			{
+				"linux"			"3"
+				"windows"		"14"
+			}
+		}
+	}
+}
