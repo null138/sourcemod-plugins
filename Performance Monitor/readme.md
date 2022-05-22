@@ -5,4 +5,5 @@ Convars:
 "pfm_activity_lack_time" - "Maximum timeout time to start logging
 
 Log paths: logs/LagLogs_\*DATE*.txt
+
 Handles dump path: logs/LagDumps_\*UNIQUE ID*.txt
