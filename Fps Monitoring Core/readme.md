@@ -1,4 +1,4 @@
-Retrieves players frames-per-second value(bound to servers tickrates value, so server cant get the real value if its over servers tickrate).
+Retrieves the players frames-per-second value(bound to servers tickrates value, so server cant get the real value if its over servers tickrate).
 
 Thats the core plugin which provides API to use on other plugins.
 
