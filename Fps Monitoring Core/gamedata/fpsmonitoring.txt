@@ -1,0 +1,26 @@
+"Games"
+{
+	"cstrike"
+	{
+		"Signatures"
+		{
+			"CNetChan::ProcessPacket"
+			{
+				"library"		"engine"
+				"linux"			"@_ZN8CNetChan13ProcessPacketEP11netpacket_sb"
+				"windows"		"\x55\x8B\xEC\x51\x53\x56\x8B\xF1\x57\x8B\x7D\x08"
+			}
+		}
+	}
+	"csgo"
+	{
+		"Signatures"
+		{
+			"CNetChan::ProcessPacket"
+			{
+				"library"		"engine"
+				"linux"			"\x55\x89\xE5\x57\x56\x53\x81\xEC\xEC\x00\x00\x00\x0F\xB6\x45\x10"
+			}
+		}
+	}
+}
