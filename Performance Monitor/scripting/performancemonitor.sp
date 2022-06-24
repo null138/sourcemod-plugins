@@ -1,7 +1,7 @@
 #pragma semicolon 1
 
 #define PLUGIN_AUTHOR "null138"
-#define PLUGIN_VERSION "1.00"
+#define PLUGIN_VERSION "2.00"
 
 #include <sourcemod>
 #include <sdktools>
@@ -9,11 +9,11 @@
 #pragma newdecls required
 
 #define DUMP_CYCLE_TIME 60.0
-#define LOG_WARNING_TIME 1.0
 
 float 
 	fMapStartTime = 0.0,
-	fcvActivityLackRate = 0.0;
+	fcvActivityLackRate = 0.0,
+	fcvLogTimer = 1.0;
 
 static char cLogPath[PLATFORM_MAX_PATH];
 int icvDumpHandles = 0;
@@ -37,6 +37,10 @@ public void OnPluginStart()
 	fcvActivityLackRate = cvar.FloatValue;
 	cvar.AddChangeHook(CVAR_ACTIVITY_LACK_TIME);
 	
+	cvar = CreateConVar("pfm_log_timer", "1.0", "Logging cooldown");
+	fcvLogTimer = cvar.FloatValue;
+	cvar.AddChangeHook(CVAR_LOG_TIMER);
+	
 	AutoExecConfig(true);
 }
 
@@ -53,6 +57,11 @@ public void CVAR_DUMP_HANDLES(ConVar cvar, const char[] oldValue, const char[] n
 public void CVAR_ACTIVITY_LACK_TIME(ConVar cvar, const char[] oldValue, const char[] newValue) 
 {
 	fcvActivityLackRate = cvar.FloatValue;
+}
+
+public void CVAR_LOG_TIMER(ConVar cvar, const char[] oldValue, const char[] newValue) 
+{
+	fcvLogTimer = cvar.FloatValue;
 }
 
 public void OnMapStart()
@@ -143,11 +152,11 @@ public void OnGameFrame()
 		return;
 	}
 	
-	if(GetEngineTime() - fTicker > 1.0)
+	if(GetEngineTime() - fTicker >= 1.0)
 	{
 		if(iLastTicks != 0 && iTicks != iLastTicks && (iTicks - iLastTicks > 1 || iTicks - iLastTicks < -1))
 		{
-			if(GetEngineTime() - fWarningTime >= LOG_WARNING_TIME)
+			if(GetEngineTime() - fWarningTime >= fcvLogTimer)
 			{
 				fWarningTime = GetEngineTime();
 				LogToFileEx(cLogPath, "Performance problems! The engine is unstable. Ticks passed: %i", iLastTicks - iTicks);
@@ -170,7 +179,7 @@ public void OnGameFrame()
 	
 	if(GetEngineTime() - fLatestActivity > fcvActivityLackRate)
 	{
-		if(GetEngineTime() - fWarningTime >= LOG_WARNING_TIME)
+		if(GetEngineTime() - fWarningTime >= fcvLogTimer)
 		{
 			fWarningTime = GetEngineTime();
 			LogToFileEx(cLogPath, "Huge performance drop! Engine got timeout: %.4f second(s)", GetEngineTime() - fLatestActivity);
