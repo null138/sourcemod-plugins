@@ -145,7 +145,7 @@ public void OnGameFrame()
 	
 	if(GetEngineTime() - fTicker > 1.0)
 	{
-		if(iLastTicks != 0 && iTicks != iLastTicks && iTicks - iLastTicks > 1 && iTicks - iLastTicks < -1)
+		if(iLastTicks != 0 && iTicks != iLastTicks && (iTicks - iLastTicks > 1 || iTicks - iLastTicks < -1))
 		{
 			if(GetEngineTime() - fWarningTime >= LOG_WARNING_TIME)
 			{
